@@ -8,7 +8,7 @@
   "content": [
   	{
       "reference": 0,
-      "itemID": "QuickHeal",
+      "itemID": "SpellQuickHeal",
       "lootTableID": null,
       "quantity": 1,
       "customValues": []
