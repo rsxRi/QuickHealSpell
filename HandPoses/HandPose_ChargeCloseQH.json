@@ -1,6 +1,6 @@
 {
   "$type": "ThunderRoad.HandPoseData, Assembly-CSharp",
-  "id": "ChargeClose",
+  "id": "ChargeCloseQH",
   "version": 2,
   "allowThumbTracking": false,
   "allowIndexTracking": true,
