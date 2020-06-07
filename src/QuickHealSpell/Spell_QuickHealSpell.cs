@@ -8,9 +8,8 @@ namespace QuickHealSpell
 {
     public class Spell_QuickHealSpell : SpellCastCharge
     {
-        private string projectileId;
-        private string projectileDamagerId;
-        private string projectileEffectId;
+        private float healMinCharge;
+        private float gripThreshold = 0.9f; // [0, 1]
 
         public List<ValueDropdownItem<string>> GetAllDamagerID()
 		{
@@ -33,6 +32,8 @@ namespace QuickHealSpell
 		public override void OnCatalogRefresh()
 		{
 			base.OnCatalogRefresh();
+			imbueEnabled = false;
+			
 			//if (this.projectileId != null && this.projectileId != "")
 			//{
 			//	this.projectileData = Catalog.GetData<ItemPhysic>(this.projectileId, true);
@@ -46,5 +47,33 @@ namespace QuickHealSpell
 			//	this.projectileEffectData = Catalog.GetData<EffectData>(this.projectileEffectId, true);
 			//}
 		}
-	}
+
+        public override void UpdateCaster()
+        {
+			base.UpdateCaster();
+
+			if (this.currentCharge < healMinCharge) return;
+            
+			// Fix side with for loop
+			foreach (Side hand in Enum.GetValues(typeof(Side))) 
+			{
+				if (PlayerControl.GetHand(hand).gripPressed && PlayerControl.GetHand(hand).GetAverageCurl() > gripThreshold)
+                {
+					Fire(true);
+                }
+			}
+            
+		}
+
+        public override void Fire(bool active)
+        {
+			HealSelf();
+            base.Fire(active);
+        }
+
+        private void HealSelf()
+        {
+			Creature.player.health.Heal(25f, Creature.player);
+        }
+    }
 }
