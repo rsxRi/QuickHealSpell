@@ -1,6 +1,6 @@
 {
   "$type": "QuickHealSpell.Spell_QuickHealSpell, QuickHealSpell",
-  "id": "QuickHealSpell",
+  "id": "QuickHeal",
   "version": 0,
   "chargeEffectId": "SpellQuickHealCharge",
   "closeHandPoseId": "ChargeClose",
