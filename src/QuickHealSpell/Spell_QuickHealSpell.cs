@@ -75,10 +75,10 @@ namespace QuickHealSpell
 
 		private void HealSelf(bool active)
 		{
-			if (active)
-			{
-				Creature.player.health.Heal(Mathf.Pow(this.currentCharge, exponentGrowth) * baseHeal, Creature.player);
-			}
+			if (!active) return;
+			
+			Creature.player.health.Heal(Mathf.Pow(this.currentCharge, exponentGrowth) * baseHeal, Creature.player);
+			
 		}	
     }
 }
