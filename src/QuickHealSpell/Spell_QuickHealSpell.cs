@@ -8,14 +8,22 @@ namespace QuickHealSpell
 {
     public class Spell_QuickHealSpell : SpellCastCharge
     {
+		// General
 		public float baseHeal = 15f;
 		public float healChargePercent = 50f;
 		public float exponentGrowth = 1.3f;
-		public float gripThreshold = 0.7f; // [0, 1]
-		public string spellHealType = "smash"; // [crush, smash, constant]
+		
+		public string spellHealType = "crush"; // [crush, smash, constant]
 		private static SpellHealType spellHealTypeInternal = SpellHealType.Crush;
-        public float baseHealConstant = 5f;
+
+		// Crush
+		public float gripThreshold = 0.7f; // [0, 1]
+
+		// Constant
+		public float constantBaseHeal = 5f;
 		public float constantExchangeRateConsumption = 1f;
+
+		// Smash
 		public float smashDistance = 0.01f;
 
 		enum SpellHealType
@@ -44,7 +52,6 @@ namespace QuickHealSpell
 				if (healType.ToString().ToLower().Contains(spellHealType.ToLower()))
                 {
 					spellHealTypeInternal = healType;
-					Debug.Log("QuickHealSpell set to " + healType.ToString());
 					return;
                 }
             }
@@ -87,6 +94,7 @@ namespace QuickHealSpell
         public override void Fire(bool active)
         {
             base.Fire(active);
+
 			if (active) return;
 			base.spellCaster.isFiring = false;
 			base.spellCaster.grabbedFire = false;
@@ -95,25 +103,40 @@ namespace QuickHealSpell
 
 		private void HealSelf(bool active)
 		{
-			if (!active || this.currentCharge < (healChargePercent / 100f) || this.spellCaster.mana.currentMana <= 0 || !this.spellCaster.isFiring) return;
+			if (!active ||
+				this.currentCharge < (healChargePercent / 100f) ||
+				this.spellCaster.mana.currentMana <= 0 ||
+				this.spellCaster.isFiring == false)
+				return;
 
-			if (spellHealTypeInternal == SpellHealType.Crush || spellHealTypeInternal == SpellHealType.Smash)
+			if (spellHealTypeInternal == SpellHealType.Crush ||
+				spellHealTypeInternal == SpellHealType.Smash)
 			{
-				Fire(false);
-				Creature.player.health.Heal(Mathf.Pow(this.currentCharge, exponentGrowth) * baseHeal, Creature.player);
-				currentCharge = 0;
+				HealSelfInstant();
 			}
 			else if(spellHealTypeInternal == SpellHealType.Constant)
 			{
-				Creature.player.health.Heal(Time.deltaTime * baseHeal / baseHealConstant, Creature.player);
-				this.spellCaster.mana.currentMana -= Time.deltaTime * baseHeal / baseHealConstant * constantExchangeRateConsumption; // mana consumption 1:x1 with health
-				if(this.spellCaster.mana.currentMana <= 0 || Creature.player.health.currentHealth >= Creature.player.health.maxHealth)
-                {
-					Fire(false);
-
-                }
+				HealSelfConstant();
 			}
 
-		}	
+		}
+
+		private void HealSelfInstant()
+        {
+			Fire(false);
+			Creature.player.health.Heal(Mathf.Pow(this.currentCharge, exponentGrowth) * baseHeal, Creature.player);
+			currentCharge = 0;
+		}
+
+		private void HealSelfConstant()
+        {
+			Creature.player.health.Heal(Time.deltaTime * baseHeal / constantBaseHeal, Creature.player);
+			this.spellCaster.mana.currentMana -= Time.deltaTime * baseHeal / constantBaseHeal * constantExchangeRateConsumption; // mana consumption 1:x1 with health
+			if (this.spellCaster.mana.currentMana <= 0 || Creature.player.health.currentHealth >= Creature.player.health.maxHealth)
+			{
+				Fire(false);
+
+			}
+		}
     }
 }
