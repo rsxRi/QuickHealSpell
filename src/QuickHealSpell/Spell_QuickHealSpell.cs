@@ -86,7 +86,6 @@ namespace QuickHealSpell
                         HealSelf(true);
                 }
             }
-
         }
 
         public override void Fire(bool active)
@@ -116,7 +115,6 @@ namespace QuickHealSpell
             {
                 HealSelfConstant();
             }
-
         }
 
         private void HealSelfInstant()
