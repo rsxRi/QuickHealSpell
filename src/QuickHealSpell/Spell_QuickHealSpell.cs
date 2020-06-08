@@ -8,9 +8,9 @@ namespace QuickHealSpell
 {
     public class Spell_QuickHealSpell : SpellCastCharge
     {
-		public float baseHeal = 30f;
-		public float healChargePercent = 50f;
-		public float exponentGrowth = 1.3f;
+	public float baseHeal = 30f;
+	public float healChargePercent = 50f;
+	public float exponentGrowth = 1.3f;
         private float gripThreshold = 0.9f; // [0, 1]
 
         public List<ValueDropdownItem<string>> GetAllDamagerID()
