@@ -12,11 +12,11 @@ namespace QuickHealSpell
 		public float healChargePercent = 50f;
 		public float exponentGrowth = 1.3f;
 		public float gripThreshold = 0.7f; // [0, 1]
-		public string spellHealType = "constant"; // [crush, smash, constant]
+		public string spellHealType = "smash"; // [crush, smash, constant]
 		private static SpellHealType spellHealTypeInternal = SpellHealType.Crush;
         public float baseHealConstant = 5f;
 		public float constantExchangeRateConsumption = 1f;
-
+		public float smashDistance = 0.01f;
 
 		enum SpellHealType
         {
@@ -69,6 +69,17 @@ namespace QuickHealSpell
                 {
 					HealSelf(true);
                 }
+				if(spellHealTypeInternal == SpellHealType.Smash)
+                {
+					var spell = spellCaster.magicSource.position;
+					var chest = Creature.player.animator.GetBoneTransform(HumanBodyBones.Chest).position;
+
+					var dist = Vector3.Distance(spell, chest);
+					var dir = spell - chest;
+
+					if (dist < 0.35f && Vector3.Dot(PlayerControl.GetHand(hand).GetHandVelocity(), dir) > 0.5f)
+						HealSelf(true);
+				}
 			}
             
 		}
