@@ -25,24 +25,24 @@
   "sprayHeadToFireMaxAngle": 45.0,
   "sprayMinCharge": 0.5,
   "caption": "QuickHeal",
-  "runeString": "h",
+  "runeString": "H",
   "imageColor": {
     "a": 1.0,
-    "r": 0.164705887,
-    "g": 0.407843173,
-    "b": 0.9450981
+    "r": 1.0,
+    "g": 0.6901960,
+    "b": 0.43529411
   },
   "rimColor": {
     "a": 1.0,
-    "r": 0.164705887,
-    "g": 0.407843173,
-    "b": 0.9450981
+    "r": 1.0,
+    "g": 0.6901960,
+    "b": 0.43529411
   },
   "innerColor": {
     "a": 1.0,
-    "r": 0.623529434,
-    "g": 0.623529434,
-    "b": 1.0
+    "r": 1.0,
+    "g": 0.9411764,
+    "b": 0.6901960
   },
   "audioContainerPath": "",
   "audioPitch": 1.0,
