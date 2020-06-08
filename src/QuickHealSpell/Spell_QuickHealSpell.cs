@@ -11,26 +11,23 @@ namespace QuickHealSpell
 		public float baseHeal = 30f;
 		public float healChargePercent = 50f;
 		public float exponentGrowth = 1.3f;
-        private float gripThreshold = 0.9f; // [0, 1]
+		public float gripThreshold = 0.9f; // [0, 1]
 
         public List<ValueDropdownItem<string>> GetAllDamagerID()
 		{
 			return Catalog.GetDropdownAllID(Catalog.Category.Damager, "None");
 		}
 
-		// Token: 0x06001113 RID: 4371 RVA: 0x0006C5A0 File Offset: 0x0006A7A0
 		public List<ValueDropdownItem<string>> GetAllItemID()
 		{
 			return Catalog.GetDropdownAllID(Catalog.Category.Item, "None");
 		}
 
-		// Token: 0x06001114 RID: 4372 RVA: 0x0007456C File Offset: 0x0007276C
 		public new SpellCastProjectile Clone()
 		{
 			return base.MemberwiseClone() as SpellCastProjectile;
 		}
 
-		// Token: 0x06001115 RID: 4373 RVA: 0x0007457C File Offset: 0x0007277C
 		public override void OnCatalogRefresh()
 		{
 			base.OnCatalogRefresh();
@@ -75,7 +72,7 @@ namespace QuickHealSpell
 
 		private void HealSelf(bool active)
 		{
-			if (active)
+			if (!active) return;
 			{
 				Creature.player.health.Heal(Mathf.Pow(this.currentCharge, exponentGrowth) * baseHeal, Creature.player);
 			}
