@@ -8,7 +8,9 @@ namespace QuickHealSpell
 {
     public class Spell_QuickHealSpell : SpellCastCharge
     {
-        private float healMinCharge;
+		public float baseHeal = 30f;
+		public float healChargePercent = 50f;
+		public float exponentGrowth = 1.3f;
         private float gripThreshold = 0.9f; // [0, 1]
 
         public List<ValueDropdownItem<string>> GetAllDamagerID()
@@ -52,7 +54,7 @@ namespace QuickHealSpell
         {
 			base.UpdateCaster();
 
-			if (this.currentCharge < healMinCharge) return;
+			if (this.currentCharge < (healChargePercent/100f)) return;
             
 			// Fix side with for loop
 			foreach (Side hand in Enum.GetValues(typeof(Side))) 
@@ -67,13 +69,16 @@ namespace QuickHealSpell
 
         public override void Fire(bool active)
         {
-			HealSelf();
+			HealSelf(active);
             base.Fire(active);
         }
 
-        private void HealSelf()
-        {
-			Creature.player.health.Heal(25f, Creature.player);
-        }
+		private void HealSelf(bool active)
+		{
+			if (active)
+			{
+				Creature.player.health.Heal(Mathf.Pow(this.currentCharge, exponentGrowth) * baseHeal, Creature.player);
+			}
+		}	
     }
 }
