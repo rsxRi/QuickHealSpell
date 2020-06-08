@@ -17,12 +17,13 @@ namespace QuickHealSpell
         // Crush
         public float gripThreshold = 0.7f; // [0, 1]
 
+        // Smash
+        public float smashDistance = 0.35f;
+        public float smashVelocity = 0.5f;
+
         // Constant
         public float constantBaseHeal = 5f;
         public float constantExchangeRateConsumption = 1f;
-
-        // Smash
-        public float smashDistance = 0.01f;
 
         private enum SpellHealType
         {
@@ -82,7 +83,7 @@ namespace QuickHealSpell
                     float dist = Vector3.Distance(spell, chest);
                     Vector3 dir = spell - chest;
 
-                    if (dist < 0.35f && Vector3.Dot(PlayerControl.GetHand(hand).GetHandVelocity(), dir) > 0.5f)
+                    if (dist < smashDistance && Vector3.Dot(PlayerControl.GetHand(hand).GetHandVelocity(), dir) > smashVelocity)
                         HealSelf(true);
                 }
             }
