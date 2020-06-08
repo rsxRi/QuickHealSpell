@@ -24,7 +24,7 @@ namespace QuickHealSpell
         // Smash
         public float smashDistance = 0.01f;
 
-        enum SpellHealType
+        private enum SpellHealType
         {
             Crush,
             Smash,
@@ -76,11 +76,11 @@ namespace QuickHealSpell
                 }
                 if (spellHealTypeInternal == SpellHealType.Smash)
                 {
-                    var spell = spellCaster.magicSource.position;
-                    var chest = Creature.player.animator.GetBoneTransform(HumanBodyBones.Chest).position;
+                    Vector3 spell = spellCaster.magicSource.position;
+                    Vector3 chest = Creature.player.animator.GetBoneTransform(HumanBodyBones.Chest).position;
 
-                    var dist = Vector3.Distance(spell, chest);
-                    var dir = spell - chest;
+                    float dist = Vector3.Distance(spell, chest);
+                    Vector3 dir = spell - chest;
 
                     if (dist < 0.35f && Vector3.Dot(PlayerControl.GetHand(hand).GetHandVelocity(), dir) > 0.5f)
                         HealSelf(true);
