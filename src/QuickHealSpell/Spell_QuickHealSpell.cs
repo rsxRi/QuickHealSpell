@@ -12,8 +12,11 @@ namespace QuickHealSpell
 		public float healChargePercent = 50f;
 		public float exponentGrowth = 1.3f;
 		public float gripThreshold = 0.7f; // [0, 1]
-		public string spellHealType = "crush"; // [crush, smash, constant]
+		public string spellHealType = "constant"; // [crush, smash, constant]
 		private static SpellHealType spellHealTypeInternal = SpellHealType.Crush;
+        public float baseHealConstant = 5f;
+		public float constantExchangeRateConsumption = 1f;
+
 
 		enum SpellHealType
         {
@@ -62,6 +65,10 @@ namespace QuickHealSpell
                 {
 					HealSelf(true);
                 }
+				if(spellHealTypeInternal == SpellHealType.Constant)
+                {
+					HealSelf(true);
+                }
 			}
             
 		}
@@ -77,12 +84,25 @@ namespace QuickHealSpell
 
 		private void HealSelf(bool active)
 		{
-			if (!active || this.currentCharge < (healChargePercent / 100f)) return;
+			if (!active || this.currentCharge < (healChargePercent / 100f) || this.spellCaster.mana.currentMana <= 0 || !this.spellCaster.isFiring) return;
 
-			Debug.Log("Healing player " + Mathf.Pow(this.currentCharge, exponentGrowth) * baseHeal);
-			Fire(false);
-			Creature.player.health.Heal(Mathf.Pow(this.currentCharge, exponentGrowth) * baseHeal, Creature.player);
-			currentCharge = 0;
+			if (spellHealTypeInternal == SpellHealType.Crush || spellHealTypeInternal == SpellHealType.Smash)
+			{
+				Fire(false);
+				Creature.player.health.Heal(Mathf.Pow(this.currentCharge, exponentGrowth) * baseHeal, Creature.player);
+				currentCharge = 0;
+			}
+			else if(spellHealTypeInternal == SpellHealType.Constant)
+			{
+				Creature.player.health.Heal(Time.deltaTime * baseHeal / baseHealConstant, Creature.player);
+				this.spellCaster.mana.currentMana -= Time.deltaTime * baseHeal / baseHealConstant * constantExchangeRateConsumption; // mana consumption 1:x1 with health
+				if(this.spellCaster.mana.currentMana <= 0 || Creature.player.health.currentHealth >= Creature.player.health.maxHealth)
+                {
+					Fire(false);
+
+                }
+			}
+
 		}	
     }
 }
