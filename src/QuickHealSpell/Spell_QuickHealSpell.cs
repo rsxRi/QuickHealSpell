@@ -9,17 +9,16 @@ namespace QuickHealSpell
         // General
         public float baseHeal = 15f;
         public float healChargePercent = 50f;
-        public float exponentGrowth = 1.3f;
 
-        public string spellHealType = "crush"; // [crush, smash, constant]
-        private static SpellHealType spellHealTypeInternal = SpellHealType.Crush;
+        public string spellHealType = "smash"; // [crush, smash, constant]
+        private static SpellHealType spellHealTypeInternal = SpellHealType.Smash;
 
         // Crush
         public float gripThreshold = 0.7f; // [0, 1]
 
         // Smash
-        public float smashDistance = 0.35f;
-        public float smashVelocity = 0.5f;
+        public float smashDistance = 0.37f;
+        public float smashVelocity = 0.45f;
 
         // Constant
         public float constantBaseHeal = 5f;
@@ -30,11 +29,6 @@ namespace QuickHealSpell
             Crush,
             Smash,
             Constant
-        }
-
-        public new SpellCastProjectile Clone()
-        {
-            return base.MemberwiseClone() as SpellCastProjectile;
         }
 
         public override void OnCatalogRefresh()
@@ -121,14 +115,14 @@ namespace QuickHealSpell
         private void HealSelfInstant()
         {
             Fire(false);
-            Creature.player.health.Heal(Mathf.Pow(this.currentCharge, exponentGrowth) * baseHeal, Creature.player);
+            Creature.player.health.Heal(this.currentCharge * baseHeal, Creature.player);
             currentCharge = 0;
         }
 
         private void HealSelfConstant()
         {
             Creature.player.health.Heal(Time.deltaTime * baseHeal / constantBaseHeal, Creature.player);
-            this.spellCaster.mana.currentMana -= Time.deltaTime * baseHeal / constantBaseHeal * constantExchangeRateConsumption; // mana consumption 1:x1 with health
+            this.spellCaster.mana.currentMana -= Time.deltaTime * constantExchangeRateConsumption * (baseHeal / constantBaseHeal); // mana consumption 1:x1 with health
             if (this.spellCaster.mana.currentMana <= 0 || Creature.player.health.currentHealth >= Creature.player.health.maxHealth)
             {
                 Fire(false);
