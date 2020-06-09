@@ -4,12 +4,12 @@
   "version": 0,
   "category": "Spell/Heal",
   "globalVolume": 1.5,
-  "globalMinPitch": 0.95,
+  "globalMinPitch": 1.0,
   "globalMaxPitch": 1.0,
   "modules": [
     {
       "$type": "ThunderRoad.EffectModuleAudio, Assembly-CSharp",
-      "audioContainerPath": "@audio:SpellFireChargeStart",
+      "audioContainerPath": "@healingsfx:SpellHealChargeStart",
       "loopFadeDelay": 0.0,
       "audioMixer": 1,
       "volumeCurve": {
@@ -43,12 +43,12 @@
       "randomPlay": false,
       "randomMinTime": 2.0,
       "randomMaxTime": 5.0,
-      "randomPitch": true,
+      "randomPitch": false,
       "pitchCurve": {
         "keys": [
           {
             "time": 0.0,
-            "value": 0.9,
+            "value": 1.0,
             "inTangent": 0.200000048,
             "outTangent": 0.200000048,
             "inWeight": 0.0,
@@ -58,7 +58,7 @@
           },
           {
             "time": 1.0,
-            "value": 1.1,
+            "value": 1.0,
             "inTangent": 0.200000048,
             "outTangent": 0.200000048,
             "inWeight": 0.333333343,
@@ -217,14 +217,14 @@
     },
     {
       "$type": "ThunderRoad.EffectModuleAudio, Assembly-CSharp",
-      "audioContainerPath": "@audio:SpellFireChargeLoop 2",
+      "audioContainerPath": "@healingsfx:SpellHealChargeLoop",
       "loopFadeDelay": 1.0,
       "audioMixer": 1,
       "volumeCurve": {
         "keys": [
           {
             "time": 0.0,
-            "value": 0.1,
+            "value": 0.5,
             "inTangent": 0.1002649,
             "outTangent": 0.1002649,
             "inWeight": 0.0,
@@ -234,7 +234,7 @@
           },
           {
             "time": 0.997358,
-            "value": 0.2,
+            "value": 0.5,
             "inTangent": 0.1002649,
             "outTangent": 0.1002649,
             "inWeight": 0.333333343,
@@ -256,7 +256,7 @@
         "keys": [
           {
             "time": 0.0,
-            "value": 0.9,
+            "value": 1.0,
             "inTangent": 0.101812407,
             "outTangent": 0.101812407,
             "inWeight": 0.0,
@@ -266,7 +266,7 @@
           },
           {
             "time": 0.841216445,
-            "value": 0.985646248,
+            "value": 1.0,
             "inTangent": 0.410999477,
             "outTangent": 0.410999477,
             "inWeight": 0.333333343,
@@ -435,7 +435,7 @@
     },
     {
       "$type": "ThunderRoad.EffectModuleAudio, Assembly-CSharp",
-      "audioContainerPath": "@audio:SpellFireChargeLoop",
+      "audioContainerPath": "@healingsfx:SpellHealChargeLoop",
       "loopFadeDelay": 1.0,
       "audioMixer": 1,
       "volumeCurve": {
@@ -474,7 +474,7 @@
         "keys": [
           {
             "time": 0.0,
-            "value": 0.9,
+            "value": 1.0,
             "inTangent": 0.11491517,
             "outTangent": 0.11491517,
             "inWeight": 0.0,
@@ -484,7 +484,7 @@
           },
           {
             "time": 0.540184855,
-            "value": 0.9620754,
+            "value": 1.0,
             "inTangent": 0.09869653,
             "outTangent": 0.09869653,
             "inWeight": 0.333333343,
@@ -1194,14 +1194,14 @@
     },
     {
       "$type": "ThunderRoad.EffectModuleAudio, Assembly-CSharp",
-      "audioContainerPath": "@audio:spellfirechargestop",
+      "audioContainerPath": "@healingsfx:spellhealchargestop",
       "loopFadeDelay": 0.0,
       "audioMixer": 1,
       "volumeCurve": {
         "keys": [
           {
             "time": 0.0,
-            "value": 0.1,
+            "value": 0.3,
             "inTangent": 0.3,
             "outTangent": 0.3,
             "inWeight": 0.0,
@@ -1228,12 +1228,12 @@
       "randomPlay": false,
       "randomMinTime": 2.0,
       "randomMaxTime": 5.0,
-      "randomPitch": true,
+      "randomPitch": false,
       "pitchCurve": {
         "keys": [
           {
             "time": 0.0,
-            "value": 0.9,
+            "value": 1.0,
             "inTangent": 0.200000048,
             "outTangent": 0.200000048,
             "inWeight": 0.0,
@@ -1243,7 +1243,7 @@
           },
           {
             "time": 1.0,
-            "value": 1.1,
+            "value": 1.0,
             "inTangent": 0.200000048,
             "outTangent": 0.200000048,
             "inWeight": 0.333333343,
@@ -1402,7 +1402,7 @@
     },
     {
       "$type": "ThunderRoad.EffectModuleAudio, Assembly-CSharp",
-      "audioContainerPath": "@audio:SpellFireChargeLoop 1",
+      "audioContainerPath": "@healingsfx:SpellHealChargeLoop",
       "loopFadeDelay": 1.0,
       "audioMixer": 1,
       "volumeCurve": {
@@ -1441,7 +1441,7 @@
         "keys": [
           {
             "time": 0.0,
-            "value": 0.9,
+            "value": 1.0,
             "inTangent": 0.200000048,
             "outTangent": 0.200000048,
             "inWeight": 0.0,
@@ -1451,7 +1451,7 @@
           },
           {
             "time": 1.0,
-            "value": 1.1,
+            "value": 1.0,
             "inTangent": 0.200000048,
             "outTangent": 0.200000048,
             "inWeight": 0.333333343,
