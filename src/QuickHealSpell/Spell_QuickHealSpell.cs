@@ -55,31 +55,32 @@ namespace QuickHealSpell
         {
             base.UpdateCaster();
 
+            if (!base.spellCaster.isFiring) this.currentCharge = 0;
+
             if (this.currentCharge < (healChargePercent / 100f)) return;
 
-            foreach (Side hand in Enum.GetValues(typeof(Side)))
+            if (PlayerControl.GetHand(spellCaster.bodyHand.side).gripPressed &&
+                PlayerControl.GetHand(spellCaster.bodyHand.side).GetAverageCurlNoThumb() > gripThreshold &&
+                spellHealTypeInternal == SpellHealType.Crush)
             {
-                if (PlayerControl.GetHand(hand).gripPressed &&
-                    PlayerControl.GetHand(hand).GetAverageCurlNoThumb() > gripThreshold &&
-                    spellHealTypeInternal == SpellHealType.Crush)
-                {
-                    HealSelf(true);
-                }
-                if (spellHealTypeInternal == SpellHealType.Constant)
-                {
-                    HealSelf(true);
-                }
-                if (spellHealTypeInternal == SpellHealType.Smash)
-                {
-                    Vector3 spell = spellCaster.magicSource.position;
-                    Vector3 chest = Creature.player.animator.GetBoneTransform(HumanBodyBones.Chest).position;
+                HealSelf();
+            }
+            if (spellHealTypeInternal == SpellHealType.Constant)
+            {
+                HealSelf();
+            }
+            if (spellHealTypeInternal == SpellHealType.Smash)
+            {
+                Vector3 spell = spellCaster.magicSource.position;
 
-                    float dist = Vector3.Distance(spell, chest);
-                    Vector3 dir = spell - chest;
+                Vector3 chest = Creature.player.animator.GetBoneTransform(HumanBodyBones.Chest).position;
 
-                    if (dist < smashDistance && Vector3.Dot(PlayerControl.GetHand(hand).GetHandVelocity(), dir) > smashVelocity)
-                        HealSelf(true);
-                }
+                float dist = Vector3.Distance(spell, chest);
+                
+                Vector3 dir = chest - spell;
+
+                if (dist < smashDistance && Vector3.Dot(Player.local.transform.rotation * PlayerControl.GetHand(this.spellCaster.bodyHand.side).GetHandVelocity(), dir) > smashVelocity)
+                    HealSelf();
             }
         }
 
@@ -90,13 +91,13 @@ namespace QuickHealSpell
             if (active) return;
             base.spellCaster.isFiring = false;
             base.spellCaster.grabbedFire = false;
+            this.currentCharge = 0;
             base.spellCaster.telekinesis.TryRelease(false);
         }
 
-        private void HealSelf(bool active)
+        private void HealSelf()
         {
-            if (!active ||
-                this.currentCharge < (healChargePercent / 100f) ||
+            if (this.currentCharge < (healChargePercent / 100f) ||
                 this.spellCaster.mana.currentMana <= 0 ||
                 this.spellCaster.isFiring == false)
                 return;
@@ -122,12 +123,9 @@ namespace QuickHealSpell
         private void HealSelfConstant()
         {
             Creature.player.health.Heal(Time.deltaTime * baseHeal / constantBaseHeal, Creature.player);
-            this.spellCaster.mana.currentMana -= Time.deltaTime * constantExchangeRateConsumption * (baseHeal / constantBaseHeal); // mana consumption 1:x1 with health
+            this.spellCaster.mana.currentMana -= Time.deltaTime * constantExchangeRateConsumption * (baseHeal / constantBaseHeal);
             if (this.spellCaster.mana.currentMana <= 0 || Creature.player.health.currentHealth >= Creature.player.health.maxHealth)
-            {
                 Fire(false);
-
-            }
         }
     }
 }
