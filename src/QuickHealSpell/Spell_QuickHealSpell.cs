@@ -115,9 +115,9 @@ namespace QuickHealSpell
 
         private void HealSelfInstant()
         {
+            
+            Creature.player.health.Heal(baseHeal, Creature.player);
             Fire(false);
-            Creature.player.health.Heal(this.currentCharge * baseHeal, Creature.player);
-            currentCharge = 0;
         }
 
         private void HealSelfConstant()
