@@ -652,98 +652,6 @@
       "disabled": false
     },
     {
-      "$type": "ThunderRoad.EffectModuleParticle, Assembly-CSharp",
-      "effectParticlePath": "@vfx:FireCharge",
-      "intensityCurve": null,
-      "renderInLateUpdate": false,
-      "mainGradient": {
-        "colorKeys": [
-          {
-            "color": {
-              "a": 1.0,
-              "r": 1.992,
-              "g": 1.242,
-              "b": 0.375
-            },
-            "time": 0.00588998245
-          },
-          {
-            "color": {
-              "a": 1.0,
-              "r": 1.992,
-              "g": 1.242,
-              "b": 0.375
-            },
-            "time": 1.0
-          }
-        ],
-        "alphaKeys": [
-          {
-            "alpha": 1.0,
-            "time": 0.0
-          },
-          {
-            "alpha": 1.0,
-            "time": 1.0
-          }
-        ],
-        "mode": 0
-      },
-      "secondaryGradient": {
-        "colorKeys": [
-          {
-            "color": {
-              "a": 1.0,
-              "r": 1.992,
-              "g": 1.242,
-              "b": 0.375
-            },
-            "time": 0.00294499123
-          },
-          {
-            "color": {
-              "a": 1.0,
-              "r": 1.992,
-              "g": 1.242,
-              "b": 0.375
-            },
-            "time": 1.0
-          }
-        ],
-        "alphaKeys": [
-          {
-            "alpha": 1.0,
-            "time": 0.0
-          },
-          {
-            "alpha": 1.0,
-            "time": 1.0
-          }
-        ],
-        "mode": 0
-      },
-      "localScale": {
-        "x": 1.0,
-        "y": 1.0,
-        "z": 1.0
-      },
-      "useScaleCurve": false,
-      "scaleCurve": null,
-      "collisionEffectId": null,
-      "collisionLayerMask": {
-        "value": -2097353
-      },
-      "collisionMaxGroundAngle": 45.0,
-      "collisionEmitRate": 0.2,
-      "collisionMinIntensity": 0.0,
-      "collisionMaxIntensity": 1.0,
-      "collisionUseMainGradient": false,
-      "collisionUseSecondaryGradient": false,
-      "step": 1,
-      "stepCustomId": null,
-      "disabled": false
-    },
-    {
       "$type": "ThunderRoad.EffectModuleMesh, Assembly-CSharp",
       "intensityCurve": {
         "keys": [
@@ -783,38 +691,38 @@
           {
             "color": {
               "a": 0.3,
-              "r": 2.0,
-              "g": 1.875,
-              "b": 1.3656
+              "r": 1.0,
+              "g": 0.7775,
+              "b": 0.4828
             },
             "time": 0.0
           },
           {
             "color": {
               "a": 0.3,
-              "r": 2.0,
-              "g": 1.875,
-              "b": 1.365
+              "r": 1.0,
+              "g": 0.7775,
+              "b": 0.4828
             },
             "time": 1.0
           }
         ],
         "alphaKeys": [
           {
-            "alpha": 1.0,
+            "alpha": 0.5,
             "time": 0.0
           },
           {
-            "alpha": 1.0,
+            "alpha": 0.5,
             "time": 1.0
           }
         ],
         "mode": 0
       },
       "localScale": {
-        "x": 0.09,
-        "y": 0.09,
-        "z": 0.09
+        "x": 0.03,
+        "y": 0.03,
+        "z": 0.03
       },
       "useSizeCurve": true,
       "sizeCurve": {
@@ -941,8 +849,8 @@
             "color": {
               "a":0.3,
               "r": 2.0,
-              "g": 1.875,
-              "b": 1.365
+              "g": 1.575,
+              "b": 1.065
             },
             "time": 0.0
           },
@@ -950,8 +858,8 @@
             "color": {
               "a": 0.3,
               "r": 2.0,
-              "g": 1.875,
-              "b": 1.365
+              "g": 1.575,
+              "b": 1.065
             },
             "time": 1.0
           }
@@ -969,9 +877,9 @@
         "mode": 0
       },
       "localScale": {
-        "x": 0.1,
-        "y": 0.1,
-        "z": 0.1
+        "x": 0.04,
+        "y": 0.04,
+        "z": 0.04
       },
       "useSizeCurve": true,
       "sizeCurve": {
@@ -998,7 +906,7 @@
           },
           {
             "time": 1.0,
-            "value": 0.1,
+            "value": 0.04,
             "inTangent": 0.0,
             "outTangent": 0.0,
             "inWeight": 0.333333343,
@@ -1087,8 +995,8 @@
             "color": {
               "a": 0.3,
               "r": 3.9,
-              "g": 1.875,
-              "b": 1.365
+              "g": 1.575,
+              "b": 1.065
             },
             "time": 0.0
           },
@@ -1096,8 +1004,8 @@
             "color": {
               "a": 0.3,
               "r": 2.0,
-              "g": 1.875,
-              "b": 1.365
+              "g": 1.575,
+              "b": 1.065
             },
             "time": 1.0
           }
@@ -1115,9 +1023,9 @@
         "mode": 0
       },
       "localScale": {
-        "x": 0.07,
-        "y": 0.07,
-        "z": 0.07
+        "x": 0.02,
+        "y": 0.02,
+        "z": 0.02
       },
       "useSizeCurve": true,
       "sizeCurve": {

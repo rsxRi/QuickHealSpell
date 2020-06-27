@@ -1,6 +1,12 @@
-﻿using System;
+﻿using MEC;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using ThunderRoad;
 using UnityEngine;
+using UnityEngine.VFX;
+using static QuickHealSpell.QuickHealSpellUtils;
 
 namespace QuickHealSpell
 {
@@ -24,6 +30,9 @@ namespace QuickHealSpell
         public float constantBaseHeal = 5f;
         public float constantExchangeRateConsumption = 1f;
 
+        private GameObject vfxOrb;
+        private bool healSuccess = false;
+
         private enum SpellHealType
         {
             Crush,
@@ -34,6 +43,9 @@ namespace QuickHealSpell
         public override void OnCatalogRefresh()
         {
             base.OnCatalogRefresh();
+            System.Collections.Generic.List<GameObject> vfxs = QuickHealSpellUtils.LoadResources<GameObject>(new string[] { "healing_orb.prefab", "healing_aoe.prefab" }, "healingsfx");
+            healingOrb = vfxs.Where(x => x.name == "healing_orb").First();
+            healingAoe = vfxs.Where(x => x.name == "healing_aoe").First();
             imbueEnabled = false;
             VerifyType();
         }
@@ -76,7 +88,7 @@ namespace QuickHealSpell
                 Vector3 chest = Creature.player.animator.GetBoneTransform(HumanBodyBones.Chest).position;
 
                 float dist = Vector3.Distance(spell, chest);
-                
+
                 Vector3 dir = chest - spell;
 
                 if (dist < smashDistance && Vector3.Dot(Player.local.transform.rotation * PlayerControl.GetHand(this.spellCaster.bodyHand.side).GetHandVelocity(), dir) > smashVelocity)
@@ -87,8 +99,17 @@ namespace QuickHealSpell
         public override void Fire(bool active)
         {
             base.Fire(active);
+            if (active)
+            {
+                vfxOrb = GameObject.Instantiate(healingOrb, spellCaster.magicSource);
+                vfxOrb.transform.localPosition = Vector3.zero;
+                vfxOrb.transform.localScale = vfxOrb.transform.localScale / 11;
+            }
 
             if (active) return;
+            if (healSuccess) Timing.RunCoroutine(LerpVfx(0.2f, vfxOrb, vfxOrb.transform.localScale, vfxOrb.transform.localScale * 2f));
+            else Timing.RunCoroutine(LerpVfx(0.2f, vfxOrb, vfxOrb.transform.localScale, Vector3.zero));
+            healSuccess = false;
             base.spellCaster.isFiring = false;
             base.spellCaster.grabbedFire = false;
             this.currentCharge = 0;
@@ -115,7 +136,7 @@ namespace QuickHealSpell
 
         private void HealSelfInstant()
         {
-            
+            healSuccess = true;
             Creature.player.health.Heal(baseHeal, Creature.player);
             Fire(false);
         }
@@ -126,6 +147,31 @@ namespace QuickHealSpell
             this.spellCaster.mana.currentMana -= Time.deltaTime * constantExchangeRateConsumption * (baseHeal / constantBaseHeal);
             if (this.spellCaster.mana.currentMana <= 0 || Creature.player.health.currentHealth >= Creature.player.health.maxHealth)
                 Fire(false);
+        }
+
+        public IEnumerator<float> LerpVfx(float seconds, GameObject vfx, Vector3 startScale, Vector3 endScale)
+        {
+            if (vfx != null)
+            {
+                float time = 0f;
+                vfx.transform.SetParent(null);
+                vfx.GetComponent<VisualEffect>().playRate = 4f;
+                vfx.GetComponent<VisualEffect>().Stop();
+                while (time < 1f)
+                {
+                    time += Time.fixedDeltaTime / (seconds / 2f);
+                    vfx.transform.localScale = Vector3.Lerp(startScale, endScale, time);
+                    yield return Time.fixedDeltaTime;
+                }
+                time = 0f;
+                while (time < 1f)
+                {
+                    time += Time.fixedDeltaTime / (1f - (seconds / 2f));
+                    yield return Time.fixedDeltaTime;
+                }
+
+                GameObject.Destroy(vfx);
+            }
         }
     }
 }
