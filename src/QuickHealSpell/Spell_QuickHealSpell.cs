@@ -32,6 +32,8 @@ namespace QuickHealSpell
 
         private GameObject vfxOrb;
         private bool healSuccess = false;
+        private EffectAudio chargeStop = null;
+        private EffectAudio chargeSuccess = null;
 
         private enum SpellHealType
         {
@@ -43,10 +45,11 @@ namespace QuickHealSpell
         public override void OnCatalogRefresh()
         {
             base.OnCatalogRefresh();
-            System.Collections.Generic.List<GameObject> vfxs = QuickHealSpellUtils.LoadResources<GameObject>(new string[] { "healing_orb.prefab", "healing_aoe.prefab" }, "healingsfx");
+            List<GameObject> vfxs = QuickHealSpellUtils.LoadResources<GameObject>(new string[] { "healing_orb.prefab", "healing_aoe.prefab" }, "healingsfx");
             healingOrb = vfxs.Where(x => x.name == "healing_orb").First();
             healingAoe = vfxs.Where(x => x.name == "healing_aoe").First();
             imbueEnabled = false;
+            
             VerifyType();
         }
 
@@ -107,8 +110,27 @@ namespace QuickHealSpell
             }
 
             if (active) return;
-            if (healSuccess) Timing.RunCoroutine(LerpVfx(0.2f, vfxOrb, vfxOrb.transform.localScale, vfxOrb.transform.localScale * 2f));
-            else Timing.RunCoroutine(LerpVfx(0.2f, vfxOrb, vfxOrb.transform.localScale, Vector3.zero));
+            if (healSuccess)
+            {
+                //var temp = this.chargeEffectData;
+                
+                //Debug.Log(temp.modules.Count);
+                //foreach (var g in temp.modules.Where(x => x.stepCustomId == "2"))
+                //{
+                //    Debug.Log(g.stepCustomId);
+                //    var effect = g.Spawn(temp, false);
+                //    effect.Play();
+                    
+                //    Timing.RunCoroutine(DoActionAfter(1f, () => effect.Despawn()));
+                //}
+                Timing.RunCoroutine(LerpVfx(0.2f, vfxOrb, vfxOrb.transform.localScale, vfxOrb.transform.localScale * 2f));
+                PlayerControl.GetHand(spellCaster.bodyHand.side).HapticPlayClip(Catalog.gameData.haptics.telekinesisThrow, 2f);
+            }
+            else
+            {
+                Timing.RunCoroutine(LerpVfx(0.2f, vfxOrb, vfxOrb.transform.localScale, Vector3.zero));
+            }
+
             healSuccess = false;
             base.spellCaster.isFiring = false;
             base.spellCaster.grabbedFire = false;
