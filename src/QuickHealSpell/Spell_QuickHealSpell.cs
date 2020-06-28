@@ -125,13 +125,13 @@ namespace QuickHealSpell
                 //}
                 Timing.RunCoroutine(LerpVfx(0.2f, vfxOrb, vfxOrb.transform.localScale, vfxOrb.transform.localScale * 2f));
                 PlayerControl.GetHand(spellCaster.bodyHand.side).HapticPlayClip(Catalog.gameData.haptics.telekinesisThrow, 2f);
+                healSuccess = false;
             }
             else
             {
                 Timing.RunCoroutine(LerpVfx(0.2f, vfxOrb, vfxOrb.transform.localScale, Vector3.zero));
             }
 
-            healSuccess = false;
             base.spellCaster.isFiring = false;
             base.spellCaster.grabbedFire = false;
             this.currentCharge = 0;
